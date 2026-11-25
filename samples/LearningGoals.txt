@@ -1,0 +1,22 @@
+Learning Goals - Fall 2026
+
+This file lists the personal learning goals for the semester, kept as plain
+text so it is easy to edit on any device.
+
+1. Understand gradient-based optimization well enough to implement and tune
+   a small neural network from scratch, without a deep learning framework.
+
+2. Be able to design a normalized relational schema and explain why each
+   normal form matters, using the course project as the running example.
+
+3. Build one complete, working AI application end to end - the personal
+   knowledge and task assistant - and be able to defend every architectural
+   decision in front of an examiner.
+
+4. Write technical documentation that a stranger can follow without asking
+   questions. Every project deliverable this semester gets a README.
+
+5. Keep a sustainable weekly rhythm: no all-nighters before deadlines,
+   Saturday library sessions, and a planning review every Sunday evening.
+
+Progress is reviewed monthly against the milestones in the study plan.

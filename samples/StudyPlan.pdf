@@ -1,0 +1,175 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R 9 0 R] /Count 4 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 559 >>
+stream
+BT
+/F1 11 Tf
+16 TL
+72 720 Td
+(Semester Study Plan - Fall 2026) Tj
+T*
+() Tj
+T*
+(This document describes the courses, schedule, and milestones for the) Tj
+T*
+(fall semester. It is the primary reference for planning study time) Tj
+T*
+(and tracking progress toward this semester's learning goals.) Tj
+T*
+() Tj
+T*
+(Enrolled courses:) Tj
+T*
+(1. Machine Learning \(CS-401\) - lectures on Tuesdays, lab on Thursdays.) Tj
+T*
+(2. Database Systems \(CS-330\) - lectures on Mondays and Wednesdays.) Tj
+T*
+(3. Technical Writing \(ENG-215\) - seminars on Fridays.) Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 717 >>
+stream
+BT
+/F1 11 Tf
+16 TL
+72 720 Td
+(Weekly Schedule) Tj
+T*
+() Tj
+T*
+(A typical study week is structured as follows. Monday and Wednesday) Tj
+T*
+(mornings are reserved for Database Systems reading and problem sets.) Tj
+T*
+(Tuesday is the Machine Learning lecture day, followed by an evening) Tj
+T*
+(review session. Thursday afternoons are for the ML lab, where the) Tj
+T*
+(weekly notebook has to be finished and submitted before midnight.) Tj
+T*
+() Tj
+T*
+(Friday mornings cover Technical Writing; the afternoon is free for) Tj
+T*
+(the personal software project. Weekends are reserved for rest, one) Tj
+T*
+(long library session on Saturday, and planning the next week on) Tj
+T*
+(Sunday evening using this assistant.) Tj
+T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 837 >>
+stream
+BT
+/F1 11 Tf
+16 TL
+72 720 Td
+(Project Tooling Decisions) Tj
+T*
+() Tj
+T*
+(For the personal assistant project the following tools were chosen.) Tj
+T*
+(Qdrant was selected as the vector database because it offers a local) Tj
+T*
+(persistent mode that requires no separately deployed server, and its) Tj
+T*
+(payload metadata keeps citation information attached to every chunk.) Tj
+T*
+() Tj
+T*
+(LangGraph is used as the workflow orchestrator, with a persistent) Tj
+T*
+(SQLite checkpointer so that conversations and pending approvals) Tj
+T*
+(survive restarts. For embeddings the project uses the local model) Tj
+T*
+(sentence-transformers/all-MiniLM-L6-v2, which produces 384-dimensional) Tj
+T*
+(vectors and avoids embedding API charges. Streamlit was picked for the) Tj
+T*
+(interface because a single developer can maintain it easily.) Tj
+T*
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 626 >>
+stream
+BT
+/F1 11 Tf
+16 TL
+72 720 Td
+(Milestones and Exams) Tj
+T*
+() Tj
+T*
+(Key dates for the semester:) Tj
+T*
+(- October 30, 2026: project proposal due in Technical Writing.) Tj
+T*
+(- November 20, 2026: Database Systems midterm \(in class\).) Tj
+T*
+(- December 18, 2026: Machine Learning final exam.) Tj
+T*
+(- December 22, 2026: last lab notebook submission.) Tj
+T*
+() Tj
+T*
+(The project demo is scheduled for the second week of December, so all) Tj
+T*
+(core features should be feature-complete by December 4. A buffer of) Tj
+T*
+(one week is kept for testing, documentation, and rehearsal of the) Tj
+T*
+(live demonstration.) Tj
+T*
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000133 00000 n 
+0000000260 00000 n 
+0000000870 00000 n 
+0000000997 00000 n 
+0000001765 00000 n 
+0000001892 00000 n 
+0000002780 00000 n 
+0000002908 00000 n 
+0000003586 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+3657
+%%EOF
