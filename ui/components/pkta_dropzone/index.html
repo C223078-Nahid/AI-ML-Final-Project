@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PKTA chat dropzone</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+<script>
+(function () {
+  "use strict";
+
+  // ------------------------------------------------------------------
+  // Minimal Streamlit custom-component protocol (same-origin component
+  // served by declare_component(path=...)).  Messages to the parent app:
+  //   streamlit:componentReady  {apiVersion: 1}
+  //   streamlit:setFrameHeight {height: 0}
+  //   streamlit:setComponentValue {value, dataType: "json"}
+  // Every message MUST carry isStreamlitMessage: true - the ComponentRegistry
+  // drops anything without it (verified against the Streamlit 1.67 bundle).
+  // ------------------------------------------------------------------
+  function sendToStreamlit(type, data) {
+    window.parent.postMessage(
+      Object.assign({ isStreamlitMessage: true, type: type }, data || {}),
+      "*"
+    );
+  }
+  sendToStreamlit("streamlit:componentReady", { apiVersion: 1 });
+  sendToStreamlit("streamlit:setFrameHeight", { height: 0 });
+
+  // The component iframe is same-origin with the Streamlit app, so the
+  // document-level drag listeners can be attached to the PARENT document:
+  // this is what turns the whole chat/message area into a drop target.
+  var doc;
+  try {
+    doc = window.parent.document;
+  } catch (err) {
+    return; // Cross-origin (unexpected): stay inert, uploader still works.
+  }
+
+  var overlay = null;
+  var dragDepth = 0;
+
+  var MAX_FILES = 10;
+
+  function hasFilePayload(event) {
+    var types = event.dataTransfer && event.dataTransfer.types;
+    if (!types) return false;
+    for (var i = 0; i < types.length; i++) {
+      if (types[i] === "Files") return true;
+    }
+    return false;
+  }
+
+  function insideNativeUploader(target) {
+    // Drops aimed at a native st.file_uploader dropzone are left to
+    // Streamlit's own handling - no double processing.
+    return !!(target && target.closest &&
+      target.closest('[data-testid="stFileUploaderDropzone"]'));
+  }
+
+  function ensureOverlay() {
+    if (overlay && overlay.isConnected) return overlay;
+    overlay = doc.createElement("div");
+    overlay.id = "pkta-drop-overlay";
+    overlay.setAttribute("aria-hidden", "true");
+    Object.assign(overlay.style, {
+      position: "fixed", left: "0", right: "0", top: "0", bottom: "0",
+      zIndex: "99999", display: "none",
+      pointerEvents: "none", background: "rgba(23, 23, 23, 0.55)"
+    });
+    var frame = doc.createElement("div");
+    frame.id = "pkta-drop-overlay-inner";
+    Object.assign(frame.style, {
+      position: "absolute", left: "18px", right: "18px",
+      top: "18px", bottom: "18px",
+      border: "2px dashed #10a37f", borderRadius: "18px",
+      background: "rgba(16, 163, 127, 0.10)",
+      display: "flex", alignItems: "center", justifyContent: "center"
+    });
+    var label = doc.createElement("div");
+    label.id = "pkta-drop-overlay-label";
+    label.textContent = "Drop to upload \u2014 PDF, DOCX, TXT, Markdown";
+    Object.assign(label.style, {
+      color: "#ececec", fontSize: "1.05rem", fontWeight: "600",
+      background: "rgba(23, 23, 23, 0.95)",
+      padding: "0.85rem 1.5rem", borderRadius: "12px",
+      border: "1px solid rgba(255, 255, 255, 0.18)",
+      textAlign: "center", maxWidth: "80%", lineHeight: "1.4"
+    });
+    frame.appendChild(label);
+    overlay.appendChild(frame);
+    doc.body.appendChild(overlay);
+    return overlay;
+  }
+
+  function showOverlay() {
+    var node = ensureOverlay();
+    node.style.display = "block";
+  }
+
+  function hideOverlay() {
+    if (overlay) overlay.style.display = "none";
+    dragDepth = 0;
+  }
+
+  doc.addEventListener("dragenter", function (event) {
+    if (!hasFilePayload(event) || insideNativeUploader(event.target)) return;
+    dragDepth += 1;
+    showOverlay();
+  });
+
+  doc.addEventListener("dragover", function (event) {
+    if (!hasFilePayload(event)) return;
+    if (insideNativeUploader(event.target)) { hideOverlay(); return; }
+    // preventDefault is required so the browser allows a drop here instead
+    // of navigating to the file.
+    event.preventDefault();
+  });
+
+  doc.addEventListener("dragleave", function (event) {
+    if (!hasFilePayload(event) || insideNativeUploader(event.target)) return;
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (dragDepth === 0) hideOverlay();
+  });
+
+  function readFile(file) {
+    return new Promise(function (resolve) {
+      try {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var dataUrl = String(reader.result || "");
+          resolve({
+            name: file.name,
+            type: file.type || "",
+            size: file.size,
+            data: dataUrl.slice(dataUrl.indexOf(",") + 1) || ""
+          });
+        };
+        reader.onerror = function () { resolve(null); };
+        reader.readAsDataURL(file);
+      } catch (err) {
+        resolve(null);
+      }
+    });
+  }
+
+  doc.addEventListener("drop", function (event) {
+    hideOverlay();
+    if (insideNativeUploader(event.target)) return; // native uploader handles it
+    var files = event.dataTransfer && event.dataTransfer.files;
+    if (!files || !files.length) return;
+    event.preventDefault();
+    event.stopPropagation();
+    var picked = [];
+    for (var i = 0; i < files.length && i < MAX_FILES; i++) {
+      picked.push(readFile(files[i]));
+    }
+    Promise.all(picked).then(function (results) {
+      var payload = {
+        nonce: String(Date.now()) + "-" +
+          Math.random().toString(36).slice(2, 10),
+        files: results.filter(Boolean)
+      };
+      sendToStreamlit("streamlit:setComponentValue", {
+        value: payload,
+        dataType: "json"
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+# Personal Knowledge & Task Assistant - pinned dependencies
+# Verified on Python 3.12 (works on 3.11+).
+# Install:  pip install -r requirements.txt
+#
+# Tip (smaller install, CPU-only PyTorch, no CUDA):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
+
+# --- LLM orchestration -----------------------------------------------------
+langchain==1.5.2
+langchain-core==1.8.4
+langchain-openai==1.8.5
+langchain-anthropic==1.7.12
+
+# --- Workflow orchestration (StateGraph + SQLite checkpointer) ---------------
+langgraph==1.2.24
+langgraph-checkpoint==4.3.2
+langgraph-checkpoint-sqlite==3.1.3
+
+# --- Observability --------------------------------------------------------------
+langsmith==0.15.1
+
+# --- Provider SDKs (used for typed error classification) -------------------------
+openai==3.57.0
+anthropic==2.12.0
+
+# --- Data schemas ------------------------------------------------------------------
+pydantic==2.12.5
+pydantic-settings==2.13.1
+
+# --- User interface -------------------------------------------------------------------
+streamlit==1.67.0
+
+# --- RAG ---------------------------------------------------------------------------------
+qdrant-client==1.20.0
+sentence-transformers==6.3.0
+transformers==5.23.0
+torch>=2.15.0
+
+# --- Document parsing -----------------------------------------------------------------------
+pypdf==6.6.0
+python-docx==1.2.0
+
+# --- Environment management --------------------------------------------------------------------
+python-dotenv==1.2.2
+
+# --- Web search (optional AI tool, follow-up task 4) -------------------------------------------
+# HTTP client for the provider-independent search service (Tavily) and the
+# restricted page-extraction tool. Also a transitive dependency of openai.
+httpx>=0.27
+
+# --- Testing ----------------------------------------------------------------------------------------------------------------
+pytest==9.0.2
